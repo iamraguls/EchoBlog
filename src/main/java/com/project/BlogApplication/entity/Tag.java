@@ -23,9 +23,10 @@ public class Tag {
     public Tag() {
     }
 
-    public Tag(UUID id, String name) {
+    public Tag(UUID id, String name, Set<Post> posts) {
         this.id = id;
         this.name = name;
+        this.posts = posts;
     }
 
     public UUID getId() {
@@ -42,5 +43,13 @@ public class Tag {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
     }
 }

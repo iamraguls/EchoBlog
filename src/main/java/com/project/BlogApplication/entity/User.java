@@ -33,12 +33,13 @@ public class User {
     public User() {
     }
 
-    public User(UUID id, String email, String password, String name, LocalDateTime createdAt) {
+    public User(UUID id, String email, String password, String name, LocalDateTime createdAt, List<Post> posts) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
         this.createdAt = createdAt;
+        this.posts = posts;
     }
 
     public UUID getId() {
@@ -79,5 +80,13 @@ public class User {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 }

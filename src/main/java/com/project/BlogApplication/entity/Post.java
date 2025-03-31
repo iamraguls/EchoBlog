@@ -54,10 +54,13 @@ public class Post {
     public Post() {
     }
 
-    public Post(UUID id, String title, String content, PostStatus status, Integer readingTime, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Post(UUID id, String title, String content, User author, Category category, Set<Tag> tags, PostStatus status, Integer readingTime, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.author = author;
+        this.category = category;
+        this.tags = tags;
         this.status = status;
         this.readingTime = readingTime;
         this.createdAt = createdAt;
@@ -118,5 +121,29 @@ public class Post {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
 }
