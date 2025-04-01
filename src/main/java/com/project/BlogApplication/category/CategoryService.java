@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,4 +44,16 @@ public class CategoryService {
         return categoryMapper.toDTO(savedCategory);
     }
 
+    public String deleteCategory(UUID id) {
+        Optional<Category> category = categoryRepository.findById(id);
+        if(category.isPresent()){
+            if(!category.get().getPosts().isEmpty()){
+                throw new IllegalArgumentException("Category with id " + id + " has posts associated with it");
+            }
+            categoryRepository.deleteById(id);
+            return "Category "+category.get().getName()+" deleted successfully";
+        }else{
+            throw new IllegalArgumentException("Category with id " + id + " not found");
+        }
+    }
 }
