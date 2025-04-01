@@ -2,7 +2,7 @@ package com.project.BlogApplication.dto;
 
 import java.util.UUID;
 
-public class CategoryDTO {
+public class CategoryResponseDTO {
 
     private UUID id;
     private String name;

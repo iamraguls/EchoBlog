@@ -1,6 +1,7 @@
 package com.project.BlogApplication.mapper;
 
-import com.project.BlogApplication.dto.CategoryDTO;
+import com.project.BlogApplication.dto.CategoryRequestDTO;
+import com.project.BlogApplication.dto.CategoryResponseDTO;
 import com.project.BlogApplication.entity.Category;
 import com.project.BlogApplication.entity.PostStatus;
 import org.springframework.stereotype.Component;
@@ -8,8 +9,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class CategoryMapper {
 
-    public CategoryDTO toDTO(Category category){
-        CategoryDTO dto = new CategoryDTO();
+    public CategoryResponseDTO toDTO(Category category){
+        CategoryResponseDTO dto = new CategoryResponseDTO();
         dto.setId(category.getId());
         dto.setName(category.getName());
 
@@ -21,6 +22,12 @@ public class CategoryMapper {
 
         dto.setPostCount(publishedPostCount);
         return dto;
+    }
+
+    public Category toEntity(CategoryRequestDTO categoryRequestDTO){
+        Category category = new Category();
+        category.setName(categoryRequestDTO.getName());
+        return category;
     }
 
 }

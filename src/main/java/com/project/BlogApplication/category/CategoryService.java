@@ -1,6 +1,7 @@
 package com.project.BlogApplication.category;
 
-import com.project.BlogApplication.dto.CategoryDTO;
+import com.project.BlogApplication.dto.CategoryRequestDTO;
+import com.project.BlogApplication.dto.CategoryResponseDTO;
 import com.project.BlogApplication.entity.Category;
 import com.project.BlogApplication.mapper.CategoryMapper;
 import com.project.BlogApplication.repository.CategoryRepository;
@@ -24,7 +25,7 @@ public class CategoryService {
         this.categoryMapper = categoryMapper;
     }
 
-    public List<CategoryDTO> getAllCategories() {
+    public List<CategoryResponseDTO> getAllCategories() {
         List<Category> categories = categoryRepository.findAll();
         return categories
                 .stream()
@@ -32,11 +33,13 @@ public class CategoryService {
                 .collect(Collectors.toList());
     }
 
-    public CategoryDTO createCategory(Category category) {
+    public CategoryResponseDTO createCategory(CategoryRequestDTO categoryRequestDTO) {
+        Category category = categoryMapper.toEntity(categoryRequestDTO);
         if(categoryRepository.existsByNameIgnoreCase(category.getName())){
             throw new IllegalArgumentException("Category with name " + category.getName() + " already exists");
         }
         Category savedCategory = categoryRepository.save(category);
         return categoryMapper.toDTO(savedCategory);
     }
+
 }
