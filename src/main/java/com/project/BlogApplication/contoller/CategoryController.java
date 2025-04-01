@@ -2,9 +2,12 @@ package com.project.BlogApplication.contoller;
 
 import com.project.BlogApplication.category.CategoryService;
 import com.project.BlogApplication.dto.CategoryDTO;
+import com.project.BlogApplication.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +28,12 @@ public class CategoryController {
     public ResponseEntity<List<CategoryDTO>> getAllCategories() {
         return ResponseEntity.ok(categoryService.getAllCategories());
     }
+
+    @PostMapping
+    public ResponseEntity<CategoryDTO> createCategory(Category category){
+        return new ResponseEntity<>(categoryService.createCategory(category), HttpStatus.CREATED);
+    }
+
 
 
 }

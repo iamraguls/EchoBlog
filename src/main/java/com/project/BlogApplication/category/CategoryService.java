@@ -32,4 +32,11 @@ public class CategoryService {
                 .collect(Collectors.toList());
     }
 
+    public CategoryDTO createCategory(Category category) {
+        if(categoryRepository.existsByNameIgnoreCase(category.getName())){
+            throw new IllegalArgumentException("Category with name " + category.getName() + " already exists");
+        }
+        Category savedCategory = categoryRepository.save(category);
+        return categoryMapper.toDTO(savedCategory);
+    }
 }
