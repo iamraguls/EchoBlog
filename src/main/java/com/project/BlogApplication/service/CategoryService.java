@@ -1,5 +1,8 @@
-package com.project.BlogApplication.category;
+package com.project.BlogApplication.service;
 
+import com.project.BlogApplication.Exception.CategoryAlreadyExistsException;
+import com.project.BlogApplication.Exception.CategoryHasPostsException;
+import com.project.BlogApplication.Exception.CategoryNotFoundException;
 import com.project.BlogApplication.dto.CategoryRequestDTO;
 import com.project.BlogApplication.dto.CategoryResponseDTO;
 import com.project.BlogApplication.entity.Category;
@@ -38,7 +41,7 @@ public class CategoryService {
     public CategoryResponseDTO createCategory(CategoryRequestDTO categoryRequestDTO) {
         Category category = categoryMapper.toEntity(categoryRequestDTO);
         if(categoryRepository.existsByNameIgnoreCase(category.getName())){
-            throw new IllegalArgumentException("Category with name " + category.getName() + " already exists");
+            throw new CategoryAlreadyExistsException("Category with name " + category.getName() + " already exists");
         }
         Category savedCategory = categoryRepository.save(category);
         return categoryMapper.toDTO(savedCategory);
@@ -48,12 +51,13 @@ public class CategoryService {
         Optional<Category> category = categoryRepository.findById(id);
         if(category.isPresent()){
             if(!category.get().getPosts().isEmpty()){
-                throw new IllegalArgumentException("Category with id " + id + " has posts associated with it");
+                throw new CategoryHasPostsException("Category with id " + id + " has posts associated with it");
             }
             categoryRepository.deleteById(id);
             return "Category "+category.get().getName()+" deleted successfully";
         }else{
-            throw new IllegalArgumentException("Category with id " + id + " not found");
+            throw new CategoryNotFoundException("Category with id " + id + " not found");
         }
     }
+
 }

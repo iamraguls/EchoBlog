@@ -1,9 +1,8 @@
 package com.project.BlogApplication.contoller;
 
-import com.project.BlogApplication.category.CategoryService;
+import com.project.BlogApplication.service.CategoryService;
 import com.project.BlogApplication.dto.CategoryRequestDTO;
 import com.project.BlogApplication.dto.CategoryResponseDTO;
-import com.project.BlogApplication.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +33,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCategory(UUID id){
+    public ResponseEntity<String> deleteCategory(@PathVariable UUID id){
         return new ResponseEntity<>(categoryService.deleteCategory(id), HttpStatus.OK);
     }
 
