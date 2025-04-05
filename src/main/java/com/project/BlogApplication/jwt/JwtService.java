@@ -1,20 +1,25 @@
 package com.project.BlogApplication.jwt;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @Service
 public class JwtService {
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Value("${jwt.secret}")
     private String SECRET_KEY;
@@ -35,5 +40,29 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    public String extractUserEmail(String jwtToken) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJws(jwtToken)
+                .getBody();
+
+        return claims.getSubject();
+    }
+
+    public boolean isTokenValid(String jwtToken, UserDetails userDetails) {
+        String userEmail = extractUserEmail(jwtToken);
+        return userEmail.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken);
+    }
+
+    private boolean isTokenExpired(String jwtToken) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJws(jwtToken)
+                .getBody();
+        return claims.getExpiration().before(new Date());
+    }
 
 }
+
